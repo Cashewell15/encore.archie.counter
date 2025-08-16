@@ -93,6 +93,13 @@ const img1 = "archie1.png";
 const img2 = "archie2.png"; 
 const specialImg = "archeonwtfmangetouttahere.png";
 
+        // ✅ Preload images so they're ready
+const preloadImages = [img1, img2, specialImg];
+preloadImages.forEach(src => {
+  const img = new Image();
+  img.src = src;
+});
+        
 let count = 0;
 let isStopped = false; // tracks if 100-click limit is active
 
@@ -159,3 +166,4 @@ button.addEventListener("touchend", () => { if (!isStopped) image.src = img1; })
     </script>
 </body>
 </html>
+
