@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archie Encore Counter</title>
+    <link rel="icon" type="image/png" href="arc.png">
+    <style>
+        body {
+            background-color: black;
+            color: white; /* counter text visible (test) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        img {
+            width: 450px;
+            height: auto;
+            transition: 0.3s ease;
+        }
+
+        button {
+            background-color: #f2e96c;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #9576c2;
+            transform: scale(1.05);
+        }
+        
+        /* Shake animation */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translatey(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translatey(5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.3s infinite;
+        }
+        
+        #ocDescription {
+    font-size: 18px;
+    margin-top: 5px;
+    color: rgb(124, 124, 124);
+}
+
+        .counter {
+            font-size: 20px;
+        }
+
+        #mainImage.shake {
+    animation: shake 0.3s infinite;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="reactionText" style="font-size: 24px; height: 30px; margin-bottom: 20px;"></div>
+        <img id="mainImage" src="archie1.png" alt="Cool photo">
+        <button id="holdBtn">Click here to pet Archie twin🥀❤️‍🩹</button>
+        <div class="counter">Times pat: <span id="clickCount">0</span></div>
+        <p id="ocDescription">= Nasywww / Cashew15 =</p>
+    </div>
+
+    <script>
+        const image = document.getElementById("mainImage");
+const button = document.getElementById("holdBtn");
+const counterDisplay = document.getElementById("clickCount");
+
+const img1 = "archie1.png";  
+const img2 = "archie2.png"; 
+const specialImg = "archeonwtfmangetouttahere.png";
+
+let count = 0;
+let isStopped = false; // tracks if 100-click limit is active
+
+const reactionText = document.getElementById("reactionText");
+
+const reactions = [
+  "Ouch!", "Dude!?", "Stop that!", "Are you done?", "STOP!", "Ouchie!", 
+  "Hey!", "Can you not?!", 
+  "Buddy broski homie for the love of me please STOP!!!!", 
+  "HUAWAWAWAWAUWHUAHWUAHUWAHAWHUAHWUH", "Go get a REAL job" , 
+  "Good luck with SNPMB bro :)", "BOO did I scare you? Im a job application." , 
+  "Seriously?!" , "The disrespect!" , "Ur mean :(" , "Bro STOP." , "bro😭💔🙏🥀"
+];
+
+// Function to handle clicks/touches
+function handlePress() {
+    if (isStopped) return; // don't do anything if 100-click limit reached
+
+    count++;
+    counterDisplay.textContent = count;
+    image.src = img2;
+
+    // Normal reaction text
+    const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+    reactionText.textContent = randomReaction;
+    reactionText.style.fontSize = "24px"; 
+    reactionText.style.color = "white";
+
+    // Easter egg every 100 clicks
+    if (count % 100 === 0) {
+        isStopped = true;
+        image.src = specialImg;
+        button.disabled = true;
+
+        // Big angry text
+        reactionText.textContent = "I SAID STOP";
+        reactionText.style.fontSize = "60px"; 
+        reactionText.style.color = "red";
+        reactionText.classList.add("shake");
+        image.classList.add("shake");
+
+        setTimeout(() => {
+            // Reset everything after 4 seconds
+            image.src = img1;
+            button.disabled = false;
+            reactionText.textContent = "";
+            reactionText.style.fontSize = "24px";
+            reactionText.style.color = "white";
+            reactionText.classList.remove("shake");
+            image.classList.remove("shake");
+            isStopped = false; // allow further clicks
+        }, 4000);
+    }
+}
+
+// Mouse events
+button.addEventListener("mousedown", handlePress);
+button.addEventListener("mouseup", () => { if (!isStopped) image.src = img1; });
+
+// Touch events
+button.addEventListener("touchstart", handlePress);
+button.addEventListener("touchend", () => { if (!isStopped) image.src = img1; });
+
+    </script>
+</body>
+</html>
